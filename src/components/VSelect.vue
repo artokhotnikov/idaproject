@@ -36,5 +36,8 @@ export default {
   background-position-y: center;
   cursor: pointer;
   appearance: none;
+  @media (max-width: 540px) {
+    width: 100%;
+  }
 }
 </style>

@@ -3,7 +3,7 @@
     <v-header @change="change" />
     <div class="content">
       <v-form @submit="submit" />
-      <v-list :list="list" @remove="removeItem" v-if="list.length" />
+      <v-list :list="sortedList" @remove="removeItem" v-if="list.length" />
       <div class="content__empty" v-else>- Товаров нет -</div>
     </div>
   </div>
@@ -93,17 +93,33 @@ export default {
           price: "10000",
         },
       ],
+      sortingNumber: 0,
     };
   },
   methods: {
     change(value) {
-      console.log(value);
+      this.sortingNumber = value;
     },
     removeItem(item) {
       this.list = this.list.filter((i) => i.id != item.id);
     },
     submit(item) {
       this.list = [...this.list, item];
+    },
+  },
+  computed: {
+    sortedList() {
+      return [...this.list].sort((a, b) => {
+        if (this.sortingNumber == 3) {
+          return a.title.localeCompare(b.title);
+        } else if (this.sortingNumber == 2) {
+          return +a.price > +b.price ? -1 : 1;
+        } else if (this.sortingNumber == 1) {
+          return +a.price > +b.price ? 1 : -1;
+        } else if (this.sortingNumber === 0) {
+          return a;
+        }
+      });
     },
   },
   created() {
@@ -131,7 +147,12 @@ export default {
   align-items: flex-start;
   gap: 26px;
   .form {
+    position: sticky;
+    top: 24px;
     flex: 0 0 322px;
+    @media (max-width: 1024px) {
+      flex: 0 0 250px;
+    }
   }
   &__empty {
     display: flex;
@@ -139,6 +160,14 @@ export default {
     align-items: center;
     width: 100%;
     height: 442px;
+  }
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 24px;
+    .form {
+      flex: 0 0 100%;
+      position: static;
+    }
   }
 }
 </style>

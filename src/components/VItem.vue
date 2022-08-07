@@ -9,7 +9,9 @@
       <div v-if="item.description" class="item__description">
         {{ item.description }}
       </div>
-      <div class="item__price">{{ item.price }} руб.</div>
+      <div class="item__price">
+        {{ Number(item.price).toLocaleString("ru") }} руб.
+      </div>
     </div>
   </div>
 </template>
@@ -97,6 +99,12 @@ export default {
   }
   @media (min-width: 1025px) {
     &:hover &__delete {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+  @media (max-width: 1024px) {
+    &__delete {
       opacity: 1;
       pointer-events: all;
     }

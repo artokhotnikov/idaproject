@@ -6,9 +6,10 @@
       :id="id"
       :name="id"
       :placeholder="placeholder"
-      type="text"
+      :type="inputType"
       :value="value"
       @input="input"
+      @blur="isEmpty"
     />
     <textarea
       v-if="type === 'textarea'"
@@ -17,6 +18,7 @@
       :id="id"
       :value="value"
       @input="input"
+      @blur="isEmpty"
     ></textarea>
     <span v-if="isError" class="form-control__error">
       Поле является обязательным
@@ -57,10 +59,21 @@ export default {
     value: {
       type: String,
     },
+    inputType: {
+      type: String,
+      default: "text",
+    },
   },
   methods: {
     input({ target }) {
       this.$emit("input", target.value);
+    },
+    isEmpty({ target }) {
+      if (this.isRequired && !target.value) {
+        this.isError = true;
+      } else {
+        this.isError = false;
+      }
     },
   },
 };
