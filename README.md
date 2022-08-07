@@ -1,4 +1,6 @@
 # idaproject
+## Node version
+v14.17.0
 
 ## Project setup
 ```
