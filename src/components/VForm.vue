@@ -1,10 +1,11 @@
 <template>
-  <form class="form" @submit.prevent>
+  <form class="form" @submit.prevent="submit">
     <v-input
       placeholder="Наименование товара"
       label="Наименование товара"
       id="name"
       :is-required="true"
+      v-model.trim="item.title"
     />
     <v-input
       type="textarea"
@@ -12,20 +13,23 @@
       label="Описание товара"
       id="about"
       :is-required="false"
+      v-model.trim="item.description"
     />
     <v-input
       placeholder="Ссылка на изображение товара"
       label="Введите ссылку"
       id="img"
       :is-required="true"
+      v-model.trim="item.photo"
     />
     <v-input
       placeholder="Введите цену"
       label="Цена товара"
       id="price"
       :is-required="true"
+      v-model.trim="item.price"
     />
-    <v-button text="Добавить товар" />
+    <v-button :disabled="emptyForm" text="Добавить товар" />
   </form>
 </template>
 
@@ -36,6 +40,29 @@ import VButton from "@/components/VButton";
 export default {
   name: "VForm",
   components: { VButton, VInput },
+  data() {
+    return {
+      item: {
+        id: "",
+        photo: "",
+        title: "",
+        description: "",
+        price: "",
+      },
+    };
+  },
+  methods: {
+    submit() {
+      this.item.id = Date.now();
+      this.$emit("submit", this.item);
+      this.item = {};
+    },
+  },
+  computed: {
+    emptyForm() {
+      return !(this.item.title && this.item.photo && this.item.price);
+    },
+  },
 };
 </script>
 

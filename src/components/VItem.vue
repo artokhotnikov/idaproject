@@ -2,15 +2,14 @@
   <div class="item">
     <div class="item__delete" @click="remove"></div>
     <div class="item__img">
-      <img src="../assets/img/photo.jpg" alt="Фотография" />
+      <img :src="item.photo" :alt="item.title" />
     </div>
     <div class="item__body">
-      <div class="item__title">Наименование товара</div>
-      <div class="item__description">
-        Довольно-таки интересное описание товара в несколько строк.
-        Довольно-таки интересное описание товара в несколько строк
+      <div class="item__title">{{ item.title }}</div>
+      <div v-if="item.description" class="item__description">
+        {{ item.description }}
       </div>
-      <div class="item__price">10 000 руб.</div>
+      <div class="item__price">{{ item.price }} руб.</div>
     </div>
   </div>
 </template>
@@ -18,6 +17,12 @@
 <script>
 export default {
   name: "VItem",
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
   methods: {
     remove() {
       this.$emit("remove");

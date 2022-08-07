@@ -7,12 +7,16 @@
       :name="id"
       :placeholder="placeholder"
       type="text"
+      :value="value"
+      @input="input"
     />
     <textarea
       v-if="type === 'textarea'"
       :placeholder="placeholder"
       :name="id"
       :id="id"
+      :value="value"
+      @input="input"
     ></textarea>
     <span v-if="isError" class="form-control__error">
       Поле является обязательным
@@ -49,6 +53,14 @@ export default {
     isRequired: {
       type: Boolean,
       required: true,
+    },
+    value: {
+      type: String,
+    },
+  },
+  methods: {
+    input({ target }) {
+      this.$emit("input", target.value);
     },
   },
 };

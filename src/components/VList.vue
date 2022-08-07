@@ -1,6 +1,11 @@
 <template>
   <div class="list">
-    <v-item @remove="remove(item)" v-for="item in 16" :key="item" />
+    <v-item
+      @remove="remove(item)"
+      v-for="item in list"
+      :key="item.id"
+      :item="item"
+    />
   </div>
 </template>
 
@@ -10,9 +15,15 @@ import VItem from "@/components/VItem";
 export default {
   name: "VList",
   components: { VItem },
+  props: {
+    list: {
+      type: Array,
+      default: () => [],
+    },
+  },
   methods: {
     remove(item) {
-      console.log(item);
+      this.$emit("remove", item);
     },
   },
 };
